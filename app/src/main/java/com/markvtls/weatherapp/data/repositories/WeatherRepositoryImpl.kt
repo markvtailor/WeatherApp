@@ -6,6 +6,7 @@ import com.markvtls.weatherapp.data.dto.LocationResponse
 import com.markvtls.weatherapp.data.source.local.*
 import com.markvtls.weatherapp.data.source.remote.AccuWeatherApiService
 import com.markvtls.weatherapp.domain.repositories.WeatherRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -14,12 +15,16 @@ class WeatherRepositoryImpl @Inject constructor(
     private val accuWeatherApi: AccuWeatherApiService,
     private val database: WeatherDatabase
     ): WeatherRepository {
-    override suspend fun saveLongitude(longitude: Double, context: Context) {
-        defaults.saveLongitudeToDataStore(longitude, context)
+    override suspend fun saveLongitude(longitude: Double) {
+        defaults.saveLongitudeToDataStore(longitude)
     }
 
-    override suspend fun saveLatitude(latitude: Double, context: Context) {
-        defaults.saveLatitudeToDataStore(latitude, context)
+    override suspend fun saveLatitude(latitude: Double) {
+        defaults.saveLatitudeToDataStore(latitude)
+    }
+
+    override suspend fun saveLastLocation(location: String) {
+        defaults.saveLastLocation(location)
     }
 
     override suspend fun getLocationFromApi(apiKey: String, coordinates: String, language: String): LocationResponse {
@@ -42,6 +47,10 @@ class WeatherRepositoryImpl @Inject constructor(
 
     override fun getLatitude(): Flow<Double> {
         return defaults.latitudeFlow
+    }
+
+    override fun getLastLocation(): Flow<String> {
+        return defaults.lastLocationFlow
     }
 
     override fun getLocationForecast(locationName: String): List<LocationForecasts> {

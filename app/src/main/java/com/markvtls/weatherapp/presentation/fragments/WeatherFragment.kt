@@ -49,7 +49,7 @@ class WeatherFragment : Fragment() {
         createList()
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,60000, 100.0F, locationListener)
         location.observe(viewLifecycleOwner) { location ->
-            viewModel.saveNewCoordinates(location.latitude, location.longitude, requireContext())
+            viewModel.saveNewCoordinates(location.latitude, location.longitude)
             viewModel.getCurrentLocation() //move somewhere
         }
 
@@ -63,7 +63,7 @@ class WeatherFragment : Fragment() {
             }*/
         viewModel.lastLocation.observe(viewLifecycleOwner) {
             viewModel.getFiveDaysForecast(it)
-            viewModel.getLocationForecast()
+            viewModel.getLocationForecast(it.LocalizedName)
         }
             viewModel.coordinates.asLiveData().observe(viewLifecycleOwner) { coordinates ->
                 println(coordinates.latitude)

@@ -41,4 +41,16 @@ object UseCaseModule {
     fun provideGetForecastsForLocation(repository: WeatherRepository): GetForecastsForLocationUseCase {
         return GetForecastsForLocationUseCase(repository)
     }
+
+    @Singleton
+    @Provides
+    fun provideSaveLastLocationUseCase(repository: WeatherRepository): SaveLastLocationUseCase {
+        return SaveLastLocationUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetLastLocationUseCase(repository: WeatherRepository): GetLastLocationUseCase {
+        return GetLastLocationUseCase(repository)
+    }
 }

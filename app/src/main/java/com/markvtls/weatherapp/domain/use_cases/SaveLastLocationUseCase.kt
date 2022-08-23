@@ -4,11 +4,10 @@ import android.content.Context
 import com.markvtls.weatherapp.domain.repositories.WeatherRepository
 import javax.inject.Inject
 
-class SaveCoordinatesUseCase @Inject constructor(
+class SaveLastLocationUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
-    suspend operator fun invoke(latitude: Double, longitude: Double) {
-        repository.saveLatitude(latitude)
-        repository.saveLongitude(longitude)
+    suspend operator fun invoke(lastLocation: String) {
+        repository.saveLastLocation(lastLocation)
     }
 }

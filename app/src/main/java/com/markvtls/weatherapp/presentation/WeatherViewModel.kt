@@ -1,6 +1,6 @@
 package com.markvtls.weatherapp.presentation
 
-import android.content.Context
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,7 +24,9 @@ class WeatherViewModel @Inject constructor(
     private val getForecast: GetFiveDaysForecastUseCase,
     private val insertForecast: InsertForecastUseCase,
     private val insertLocation: InsertLocationUseCase,
-    private val getForecastsForLocation: GetForecastsForLocationUseCase
+    private val getForecastsForLocation: GetForecastsForLocationUseCase,
+    private val saveLastLocation: SaveLastLocationUseCase,
+    private val getLastLocation: GetLastLocationUseCase
 ) : ViewModel() {
 
     private var _coordinates: Flow<Coordinates> = getCoordinates()
@@ -34,30 +36,17 @@ class WeatherViewModel @Inject constructor(
     private var _forecastsList = MutableLiveData<List<LocationForecasts>>()
     val forecastsList = _forecastsList
 
-    /*val locationS: Flow<LocationResponse> = flow {
-        coordinates.collect {
-            val data = getLocation(it)
-            emit(data)
-        }
-
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = LocationResponse("294772","Пенза")
-    )
-*/
 
     init {
         getCurrentLocation()
-        //getFiveDaysForecast()
     }
 
 
-    fun saveNewCoordinates(latitude: Double, longitude: Double, context: Context) {
+    fun saveNewCoordinates(latitude: Double, longitude: Double) {
         viewModelScope.launch(Dispatchers.IO) {
             coordinates.collect { savedCoordinates ->
                 if (!(savedCoordinates.latitude == latitude && savedCoordinates.longitude == longitude)) {
-                    saveCoordinates(latitude, longitude, context)
+                    saveCoordinates(latitude, longitude)
                 }
             }
 
@@ -72,21 +61,25 @@ class WeatherViewModel @Inject constructor(
                     getLocation(coords).collect {
                         if (lastLocation.value != it) {
                             lastLocation.postValue(it)
+                            saveLastLocation(it.LocalizedName)
                         }
                     }
                 }
             } catch (e: Exception) {
-                getLocationForecast()
-                e.printStackTrace()
+                getLastLocation().collect {
+                    getLocationForecast(it)
+                    e.printStackTrace()
+                }
+
             }
 
         }
 
     }
 
-    fun getLocationForecast() {
+    fun getLocationForecast(location: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            getForecastsForLocation("Пенза").collect {
+            getForecastsForLocation(location).collect {
                     _forecastsList.postValue(it)
                 }
         }

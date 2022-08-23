@@ -10,9 +10,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepository {
 
-    suspend fun saveLongitude(longitude: Double, context: Context)
+    suspend fun saveLongitude(longitude: Double)
 
-    suspend fun saveLatitude(latitude: Double, context: Context)
+    suspend fun saveLatitude(latitude: Double)
+
+    suspend fun saveLastLocation(location: String)
 
     suspend fun getLocationFromApi(apiKey: String, coordinates: String, language: String): LocationResponse
 
@@ -21,6 +23,8 @@ interface WeatherRepository {
     fun getLongitude(): Flow<Double>
 
     fun getLatitude(): Flow<Double>
+
+    fun getLastLocation(): Flow<String>
 
     fun getLocationForecast(locationName: String): List<LocationForecasts>
 
