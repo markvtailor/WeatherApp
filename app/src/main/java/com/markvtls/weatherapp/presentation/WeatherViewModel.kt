@@ -74,9 +74,9 @@ class WeatherViewModel @Inject constructor(
                             lastLocation.postValue(it)
                         }
                     }
-                    //getFiveDaysForecast()
                 }
             } catch (e: Exception) {
+                getLocationForecast()
                 e.printStackTrace()
             }
 
@@ -95,7 +95,6 @@ class WeatherViewModel @Inject constructor(
     fun getFiveDaysForecast(location: LocationResponse) {
         viewModelScope.launch(Dispatchers.IO) {
                 println("called forecasting")
-
                 getForecast(location.Key).collect { forecastResponse ->
                     insertLocation(location)
                     insertForecast(location.LocalizedName, forecastResponse)

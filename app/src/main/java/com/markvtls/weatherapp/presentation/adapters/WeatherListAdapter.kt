@@ -10,10 +10,7 @@ import app.futured.donut.DonutSection
 import com.markvtls.weatherapp.data.source.local.DailyForecast
 import com.markvtls.weatherapp.data.source.local.LocationForecasts
 import com.markvtls.weatherapp.databinding.FragmentWeatherItemBinding
-import com.markvtls.weatherapp.utils.getDayOfWeek
-import com.markvtls.weatherapp.utils.getHourFromTime
-import com.markvtls.weatherapp.utils.getTime
-import com.markvtls.weatherapp.utils.yesOrNo
+import com.markvtls.weatherapp.utils.*
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
@@ -58,8 +55,12 @@ class WeatherListAdapter: ListAdapter<LocationForecasts,WeatherListAdapter.Weath
                     precipitationValue.text = forecastsList.forecasts.first().day.HasPrecipitation.yesOrNo()
                     sunRiseTime.text = forecastsList.forecasts.first().sun.Rise.getTime()
                     sunSetTime.text = forecastsList.forecasts.first().sun.Set.getTime()
-                    println(forecastsList.forecasts.first().sun.Rise.getHourFromTime())
-                    println(forecastsList.forecasts.first().sun.Set.getHourFromTime())
+                    sunRiseBar.cap = forecastsList.forecasts.first().sun.Set.getHourFromTime()
+                    sunRiseBar.addAmount(
+                        "",
+                        currentTime.toFloat().checkHourValue(forecastsList.forecasts.first().sun.Rise.getHourFromTime()),
+                        color = Color.YELLOW
+                    )
                 }
             } else {
                 binding.apply {
@@ -79,14 +80,11 @@ class WeatherListAdapter: ListAdapter<LocationForecasts,WeatherListAdapter.Weath
                     sunRiseTime.text = forecastsList.forecasts.first().sun.Rise.getTime()
                     sunSetTime.text = forecastsList.forecasts.first().sun.Set.getTime()
                     sunRiseBar.cap = forecastsList.forecasts.first().sun.Set.getHourFromTime()
-
                     sunRiseBar.addAmount(
-                        "Солнце",
-                        currentTime.toFloat(),
-                        color = Color.RED
+                        "",
+                        currentTime.toFloat().checkHourValue(forecastsList.forecasts.first().sun.Rise.getHourFromTime()),
+                        color = Color.YELLOW
                     )
-                    println(forecastsList.forecasts.first().sun.Rise.getHourFromTime())
-                    println(forecastsList.forecasts.first().sun.Set.getHourFromTime())
                 }
             }
 
