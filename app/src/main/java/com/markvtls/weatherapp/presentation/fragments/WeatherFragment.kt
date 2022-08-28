@@ -17,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.markvtls.weatherapp.R
 import com.markvtls.weatherapp.databinding.FragmentWeatherBinding
 import com.markvtls.weatherapp.presentation.WeatherViewModel
@@ -54,13 +55,6 @@ class WeatherFragment : Fragment() {
         }
 
 
-            /*binding.add.setOnClickListener {
-                println("ADD")
-            }
-            binding.test.setOnClickListener {
-                //viewModel.getCurrentLocation()
-                viewModel.getLocationForecast()
-            }*/
         viewModel.lastLocation.observe(viewLifecycleOwner) {
             viewModel.getFiveDaysForecast(it)
             viewModel.getLocationForecast(it.LocalizedName)
@@ -86,7 +80,9 @@ class WeatherFragment : Fragment() {
 
     private fun createList() {
         val viewPager = binding.viewPager
-        val adapter = WeatherListAdapter()
+        val adapter = WeatherListAdapter {
+            toChart(it)
+        }
         viewPager.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             try {
@@ -99,5 +95,8 @@ class WeatherFragment : Fragment() {
         }
     }
 
-
+    fun toChart(location: String) {
+        val action = WeatherFragmentDirections.actionWeatherFragmentToFiveDaysChartFragment(location)
+        findNavController().navigate(action)
+    }
 }

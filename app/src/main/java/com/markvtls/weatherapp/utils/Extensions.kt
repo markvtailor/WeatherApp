@@ -10,7 +10,13 @@ fun String.getDayOfWeek(): String {
     val formatter = SimpleDateFormat("EEEE", Locale.getDefault())
     return formatter.format(formattedDate).replaceFirstChar { it.uppercase() }
 }
-
+fun String.getShortDayOfWeek(): String {
+    val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.getDefault())
+    val formattedDate = dateFormatter.parse(this)
+    val formatter = SimpleDateFormat("EEEE", Locale.getDefault())
+    val day = formatter.format(formattedDate).replaceFirstChar { it.uppercase() }
+    return "${day[0]}${day[1]}"
+}
 fun String.getTime(): String {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
     val formattedDate = dateFormatter.parse(this)
@@ -25,6 +31,13 @@ fun String.getHourFromTime(): Float {
     val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
     val formattedTime = timeFormatter.format(formattedDate)
     return "${formattedTime[0]}${formattedTime[1]}".toFloat()
+}
+
+fun String.formatDate(): String {
+    val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+    val formattedDate = dateFormatter.parse(this)
+    val formatter = SimpleDateFormat("dd.MM", Locale.getDefault())
+    return formatter.format(formattedDate)
 }
 fun Boolean.yesOrNo(): String {
     return if (this) {

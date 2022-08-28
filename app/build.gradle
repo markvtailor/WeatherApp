@@ -42,6 +42,10 @@ var nav_version = "2.5.1"
 var room_version = "2.4.3"
 dependencies {
 
+
+    //Charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    
     //progressBar
     implementation("app.futured.donut:donut:2.2.2")
 
