@@ -1,8 +1,9 @@
+@file:Suppress("SpellCheckingInspection", "SpellCheckingInspection")
+
 package com.markvtls.weatherapp.data.source.remote
 
 import com.markvtls.weatherapp.data.dto.FiveDayForecastResponse
 import com.markvtls.weatherapp.data.dto.LocationResponse
-import com.markvtls.weatherapp.domain.model.Coordinates
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

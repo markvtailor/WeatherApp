@@ -3,7 +3,6 @@ package com.markvtls.weatherapp.presentation.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -22,7 +21,6 @@ import com.markvtls.weatherapp.data.source.local.DailyForecast
 import com.markvtls.weatherapp.databinding.FragmentFiveDaysChartBinding
 import com.markvtls.weatherapp.presentation.WeatherViewModel
 import com.markvtls.weatherapp.utils.formatDate
-import com.markvtls.weatherapp.utils.getDayOfWeek
 import com.markvtls.weatherapp.utils.getShortDayOfWeek
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
@@ -38,7 +36,7 @@ class FiveDaysChartFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFiveDaysChartBinding.inflate(inflater, container, false)
 
         viewModel.getLocationForecast(args.location)

@@ -1,6 +1,5 @@
 package com.markvtls.weatherapp.domain.use_cases
 
-import android.content.Context
 import com.markvtls.weatherapp.domain.repositories.WeatherRepository
 import javax.inject.Inject
 

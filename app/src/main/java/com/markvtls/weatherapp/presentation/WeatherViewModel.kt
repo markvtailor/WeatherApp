@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.markvtls.weatherapp.data.dto.LocationResponse
-import com.markvtls.weatherapp.data.source.local.DailyForecast
 import com.markvtls.weatherapp.data.source.local.LocationForecasts
 import com.markvtls.weatherapp.domain.model.Coordinates
 import com.markvtls.weatherapp.domain.use_cases.*
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
-    private val getCoordinates: GetCoordinatesUseCase,
+    getCoordinates: GetCoordinatesUseCase,
     private val saveCoordinates: SaveCoordinatesUseCase,
     private val getLocation: GetLocationUseCase,
     private val getForecast: GetFiveDaysForecastUseCase,
@@ -87,7 +86,6 @@ class WeatherViewModel @Inject constructor(
     }
     fun getFiveDaysForecast(location: LocationResponse) {
         viewModelScope.launch(Dispatchers.IO) {
-                println("called forecasting")
                 getForecast(location.Key).collect { forecastResponse ->
                     insertLocation(location)
                     insertForecast(location.LocalizedName, forecastResponse)

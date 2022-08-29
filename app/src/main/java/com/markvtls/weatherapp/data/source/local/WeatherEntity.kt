@@ -13,7 +13,6 @@ import com.markvtls.weatherapp.data.dto.Temperature
 @Entity(primaryKeys = ["locationNameForecast","date"])
 data class DailyForecast (
 
-    //@PrimaryKey(autoGenerate = true) val forecastId: Int,
 
     val locationNameForecast: String,
     val date: String,

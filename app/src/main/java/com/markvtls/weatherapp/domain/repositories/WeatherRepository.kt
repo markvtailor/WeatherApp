@@ -1,6 +1,5 @@
 package com.markvtls.weatherapp.domain.repositories
 
-import android.content.Context
 import com.markvtls.weatherapp.data.dto.FiveDayForecastResponse
 import com.markvtls.weatherapp.data.dto.LocationResponse
 import com.markvtls.weatherapp.data.source.local.DailyForecast

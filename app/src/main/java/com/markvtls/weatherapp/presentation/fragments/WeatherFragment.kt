@@ -1,29 +1,25 @@
 package com.markvtls.weatherapp.presentation.fragments
 
 import android.content.Context.LOCATION_SERVICE
+import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import androidx.lifecycle.ViewModelProvider
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.markvtls.weatherapp.R
 import com.markvtls.weatherapp.databinding.FragmentWeatherBinding
 import com.markvtls.weatherapp.presentation.WeatherViewModel
 import com.markvtls.weatherapp.presentation.adapters.WeatherListAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class WeatherFragment : Fragment() {
@@ -38,7 +34,7 @@ class WeatherFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
         locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager
         binding.root
@@ -73,16 +69,22 @@ class WeatherFragment : Fragment() {
     }
 
     private val locationListener = LocationListener { location ->
-        //
+
         this.location.postValue(location)
 
     }
 
     private fun createList() {
         val viewPager = binding.viewPager
-        val adapter = WeatherListAdapter {
+        val adapter = WeatherListAdapter(
+            {
+            openWebPage(it)
+            },
+
+            {
             toChart(it)
-        }
+            }
+        )
         viewPager.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             try {
@@ -95,8 +97,14 @@ class WeatherFragment : Fragment() {
         }
     }
 
-    fun toChart(location: String) {
+    private fun toChart(location: String) {
         val action = WeatherFragmentDirections.actionWeatherFragmentToFiveDaysChartFragment(location)
         findNavController().navigate(action)
+    }
+
+    private fun openWebPage(url: String) {
+        val webpage: Uri = Uri.parse(url)
+        val intent = Intent(Intent.ACTION_VIEW, webpage)
+        startActivity(intent)
     }
 }

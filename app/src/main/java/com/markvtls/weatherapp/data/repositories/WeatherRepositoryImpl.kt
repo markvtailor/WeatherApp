@@ -1,12 +1,11 @@
 package com.markvtls.weatherapp.data.repositories
 
-import android.content.Context
+
 import com.markvtls.weatherapp.data.dto.FiveDayForecastResponse
 import com.markvtls.weatherapp.data.dto.LocationResponse
 import com.markvtls.weatherapp.data.source.local.*
 import com.markvtls.weatherapp.data.source.remote.AccuWeatherApiService
 import com.markvtls.weatherapp.domain.repositories.WeatherRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -15,6 +14,7 @@ class WeatherRepositoryImpl @Inject constructor(
     private val accuWeatherApi: AccuWeatherApiService,
     private val database: WeatherDatabase
     ): WeatherRepository {
+
     override suspend fun saveLongitude(longitude: Double) {
         defaults.saveLongitudeToDataStore(longitude)
     }
@@ -64,8 +64,6 @@ class WeatherRepositoryImpl @Inject constructor(
     override fun insertForecast(forecast: DailyForecast) {
         database.weatherDao().insertForecast(forecast)
     }
-
-
 
 
 }
