@@ -52,6 +52,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginTop="64dp"
+            android:layout_margin="8dp"
             android:id="@+id/current_temp_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,43 +94,81 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
         <RelativeLayout
+            android:padding="8dp"
             android:id="@+id/weather_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/link"
             android:orientation="horizontal">
+            <ImageView
+                android:src="@drawable/weather_1"
+                android:id="@+id/today_weather_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:contentDescription="@string/today_weather_icon"/>
 
             <TextView
                 android:id="@+id/today_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/today" />
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@id/today_weather_icon"
+                android:text="@string/today"
+                android:textSize="20sp" />
+            <ImageView
+                android:src="@drawable/weather_1"
+                android:id="@+id/tomorrow_weather_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/today_weather_icon"
+                android:contentDescription="@string/today_weather_icon"/>
+
             <TextView
                 android:id="@+id/tomorrow_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/today_weather"
-                android:text="@string/tomorrow" />
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@id/tomorrow_weather_icon"
+                android:text="@string/tomorrow"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/third_day_weather_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tomorrow_weather_icon"
+                android:contentDescription="@string/today_weather_icon"
+                android:src="@drawable/weather_1" />
             <TextView
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
                 android:id="@+id/third_day_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/third_day_weather_icon"
                 android:layout_below="@id/tomorrow_weather"
                 />
             <TextView
+                android:layout_marginTop="4dp"
+                android:textSize="20sp"
                 android:id="@+id/today_weather_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"/>
             <TextView
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
                 android:id="@+id/tomorrow_weather_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/today_weather_temp"/>
             <TextView
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
                 android:id="@+id/third_day_weather_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

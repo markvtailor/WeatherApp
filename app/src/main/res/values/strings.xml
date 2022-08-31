@@ -15,4 +15,6 @@
     <string name="precipitation">Осадки</string>
     <string name="wind_direction">Направление</string>
     <string name="accuweather">Данные предоставлены AccuWeather</string>
+    <string name="today_weather_icon">Today weather icon</string>
+    <string name="wind_template">%s км/ч</string>
 </resources>

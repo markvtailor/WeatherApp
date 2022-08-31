@@ -20,6 +20,7 @@ import com.markvtls.weatherapp.R
 import com.markvtls.weatherapp.data.source.local.DailyForecast
 import com.markvtls.weatherapp.databinding.FragmentFiveDaysChartBinding
 import com.markvtls.weatherapp.presentation.WeatherViewModel
+import com.markvtls.weatherapp.utils.chooseIcon
 import com.markvtls.weatherapp.utils.formatDate
 import com.markvtls.weatherapp.utils.getShortDayOfWeek
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +39,37 @@ class FiveDaysChartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFiveDaysChartBinding.inflate(inflater, container, false)
+        viewModel.forecastsList.observe(viewLifecycleOwner) { forecastsList ->
+            val forecasts = forecastsList.first().forecasts
+            binding.apply {
+                dayOne.text = "Cегодня \n ${forecasts[0].date.formatDate()}"
+                dayTwo.text = "Завтра \n ${forecasts[1].date.formatDate()}"
+                dayThree.text = "  ${forecasts[2].date.getShortDayOfWeek()} \n ${forecasts[2].date.formatDate()}"
+                dayFour.text = "  ${forecasts[3].date.getShortDayOfWeek()} \n ${forecasts[3].date.formatDate()}"
+                dayFive.text = "  ${forecasts[4].date.getShortDayOfWeek()} \n ${forecasts[4].date.formatDate()}"
+            }
+
+            binding.apply {
+                dayOneWind.text = getString(R.string.wind_template, forecasts[0].day.Wind.Speed.Value.toString())
+                dayTwoWind.text = getString(R.string.wind_template, forecasts[1].day.Wind.Speed.Value.toString())
+                dayThreeWind.text = getString(R.string.wind_template, forecasts[2].day.Wind.Speed.Value.toString())
+                dayFourWind.text = getString(R.string.wind_template, forecasts[3].day.Wind.Speed.Value.toString())
+                dayFiveWind.text = getString(R.string.wind_template, forecasts[4].day.Wind.Speed.Value.toString())
+            }
+            binding.apply {
+                dayOneIcon.setImageResource(forecasts[0].day.Icon.chooseIcon())
+                dayTwoIcon.setImageResource(forecasts[1].day.Icon.chooseIcon())
+                dayThreeIcon.setImageResource(forecasts[2].day.Icon.chooseIcon())
+                dayFourIcon.setImageResource(forecasts[3].day.Icon.chooseIcon())
+                dayFiveIcon.setImageResource(forecasts[4].day.Icon.chooseIcon())
+
+                nightOneIcon.setImageResource(forecasts[0].night.Icon.chooseIcon())
+                nightTwoIcon.setImageResource(forecasts[1].night.Icon.chooseIcon())
+                nightThreeIcon.setImageResource(forecasts[2].night.Icon.chooseIcon())
+                nightFourIcon.setImageResource(forecasts[3].night.Icon.chooseIcon())
+                nightFiveIcon.setImageResource(forecasts[4].night.Icon.chooseIcon())
+            }
+        }
 
         viewModel.getLocationForecast(args.location)
         return binding.root
@@ -55,19 +87,9 @@ class FiveDaysChartFragment : Fragment() {
 
 
     private fun drawChart(forecastsList: List<DailyForecast>) {
-        val dates = listOf (
-            "Сегодня, ${forecastsList[0].date.formatDate()}",
-            "Завтра, ${forecastsList[1].date.formatDate()}",
-            "${forecastsList[2].date.getShortDayOfWeek()}, ${forecastsList[2].date.formatDate()}",
-            "${forecastsList[3].date.getShortDayOfWeek()}, ${forecastsList[3].date.formatDate()}",
-            "${forecastsList[4].date.getShortDayOfWeek()}, ${forecastsList[4].date.formatDate()}"
-        )
+
 
         val formatter = object: ValueFormatter() {
-
-            override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-                return dates[value.toInt()-1]
-            }
 
             override fun getFormattedValue(value: Float): String {
                 return value.toInt().toString()
@@ -92,12 +114,16 @@ class FiveDaysChartFragment : Fragment() {
             valueFormatter = formatter
             color = R.color.gray
             axisDependency = YAxis.AxisDependency.LEFT
+            valueTextSize = 20F
+            lineWidth = 2F
         }
 
         minTempSet.apply {
             valueFormatter = formatter
             color = R.color.gray
+            lineWidth = 2F
             axisDependency = YAxis.AxisDependency.LEFT
+            valueTextSize = 20F
         }
 
         val dataSets = ArrayList<ILineDataSet>()
@@ -111,8 +137,7 @@ class FiveDaysChartFragment : Fragment() {
         xAxis.apply {
             setDrawAxisLine(false)
             setDrawGridLines(false)
-            position = XAxis.XAxisPosition.TOP
-            granularity = 1f
+            setDrawLabels(false)
             valueFormatter = formatter
         }
         leftAxis.apply {
