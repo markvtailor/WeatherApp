@@ -9,7 +9,7 @@
     tools:context=".presentation.fragments.FiveDaysChartFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/food_list_toolbar"
+        android:id="@+id/forecasts_chart_toolbar"
         android:textAlignment="center"
         android:minHeight="?attr/actionBarSize"
         style="@style/Widget.Material3.ActionBar.Solid"

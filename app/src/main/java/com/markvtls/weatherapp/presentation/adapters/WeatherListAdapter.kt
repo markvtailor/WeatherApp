@@ -2,6 +2,7 @@ package com.markvtls.weatherapp.presentation.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,7 +13,7 @@ import com.markvtls.weatherapp.utils.*
 import java.time.LocalTime
 import kotlin.math.roundToInt
 
-class WeatherListAdapter(private val openUrl: (String) -> Unit, private val toChart: (String) -> Unit): ListAdapter<LocationForecasts,WeatherListAdapter.WeatherViewHolder>(DiffCallback) {
+class WeatherListAdapter(private val openMenu: (View) -> Unit, private val openUrl: (String) -> Unit, private val toChart: (String) -> Unit): ListAdapter<LocationForecasts,WeatherListAdapter.WeatherViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
         return WeatherViewHolder(
@@ -21,6 +22,7 @@ class WeatherListAdapter(private val openUrl: (String) -> Unit, private val toCh
                 parent,
                 false
             ),
+            openMenu,
             toChart,
             openUrl
         )
@@ -30,13 +32,13 @@ class WeatherListAdapter(private val openUrl: (String) -> Unit, private val toCh
         holder.bind(getItem(position))
     }
 
-    class WeatherViewHolder(private val binding: FragmentWeatherItemBinding,private val toChart: (String) -> Unit, private val openUrl: (String) -> Unit ): RecyclerView.ViewHolder(binding.root) {
+    class WeatherViewHolder(private val binding: FragmentWeatherItemBinding,private val openMenu: (View) -> Unit, private val toChart: (String) -> Unit, private val openUrl: (String) -> Unit ): RecyclerView.ViewHolder(binding.root) {
         fun bind(forecastsList: LocationForecasts) {
             val forecasts = forecastsList.forecasts
             val currentTime = LocalTime.now().hour
             if (currentTime in 4..21) {
                 binding.apply {
-                    toolbarTitle.text = forecastsList.location.locationName
+                    //toolbarTitle.text = forecastsList.location.locationName
                     currentTemp.text = forecasts.first().temperature.Maximum.Value.roundToInt().toString()
                     description.text = forecasts.first().day.IconPhrase
                     todayWeatherTemp.text = "${forecasts.first().temperature.Maximum.Value.roundToInt()} / ${forecasts.first().temperature.Minimum.Value.roundToInt()}"
@@ -65,10 +67,14 @@ class WeatherListAdapter(private val openUrl: (String) -> Unit, private val toCh
                         openUrl(forecasts.first().link)
                     }
 
+                    popupMenu.setOnClickListener {
+                        openMenu(it)
+                    }
+
                 }
             } else {
                 binding.apply {
-                    toolbarTitle.text = forecastsList.location.locationName
+                    //toolbarTitle.text = forecastsList.location.locationName
                     currentTemp.text = forecasts.first().temperature.Maximum.Value.roundToInt().toString()
                     description.text = forecasts.first().night.IconPhrase
                     todayWeatherTemp.text = "${forecasts.first().temperature.Maximum.Value.roundToInt()} / ${forecasts.first().temperature.Minimum.Value.roundToInt()}"
@@ -95,6 +101,10 @@ class WeatherListAdapter(private val openUrl: (String) -> Unit, private val toCh
 
                     link.setOnClickListener {
                         openUrl(forecasts.first().link)
+                    }
+
+                    popupMenu.setOnClickListener {
+                        openMenu(it)
                     }
                 }
             }

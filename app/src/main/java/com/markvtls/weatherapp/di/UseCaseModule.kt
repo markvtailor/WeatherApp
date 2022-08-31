@@ -38,8 +38,14 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideGetForecastsForLocation(repository: WeatherRepository): GetForecastsForLocationUseCase {
+    fun provideGetForecastsForLocationUseCase(repository: WeatherRepository): GetForecastsForLocationUseCase {
         return GetForecastsForLocationUseCase(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideDeleteOldForecastsUseCase(repository: WeatherRepository): DeleteOldForecastsUseCase {
+        return DeleteOldForecastsUseCase(repository)
     }
 
     @Singleton

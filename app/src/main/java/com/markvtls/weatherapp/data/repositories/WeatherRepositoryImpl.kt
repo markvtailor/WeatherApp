@@ -65,5 +65,9 @@ class WeatherRepositoryImpl @Inject constructor(
         database.weatherDao().insertForecast(forecast)
     }
 
+    override fun deleteOldForecasts(location: String) {
+        database.weatherDao().deleteOldForecasts(location)
+    }
+
 
 }

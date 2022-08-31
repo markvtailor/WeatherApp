@@ -16,4 +16,7 @@ interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertForecast(forecast: DailyForecast)
+
+    @Query("DELETE FROM DailyForecast WHERE locationNameForecast = :location")
+    fun deleteOldForecasts(location: String)
 }

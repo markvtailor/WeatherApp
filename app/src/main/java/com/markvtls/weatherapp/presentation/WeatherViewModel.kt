@@ -21,6 +21,7 @@ class WeatherViewModel @Inject constructor(
     private val saveCoordinates: SaveCoordinatesUseCase,
     private val getLocation: GetLocationUseCase,
     private val getForecast: GetFiveDaysForecastUseCase,
+    private val deleteOldForecast: DeleteOldForecastsUseCase,
     private val insertForecast: InsertForecastUseCase,
     private val insertLocation: InsertLocationUseCase,
     private val getForecastsForLocation: GetForecastsForLocationUseCase,
@@ -88,6 +89,7 @@ class WeatherViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
                 getForecast(location.Key).collect { forecastResponse ->
                     insertLocation(location)
+                    deleteOldForecast(location.LocalizedName)
                     insertForecast(location.LocalizedName, forecastResponse)
                 }
             }

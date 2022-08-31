@@ -14,6 +14,9 @@
             android:id="@+id/action_weatherFragment_to_fiveDaysChartFragment"
             app:destination="@id/fiveDaysChartFragment"
             app:popEnterAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_weatherFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/fiveDaysChartFragment"
@@ -30,4 +33,9 @@
         app:destination="@id/weatherFragment"
         app:popUpTo="@id/weatherFragment"
         app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.markvtls.weatherapp.presentation.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

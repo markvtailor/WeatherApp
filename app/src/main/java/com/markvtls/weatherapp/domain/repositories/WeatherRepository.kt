@@ -30,4 +30,6 @@ interface WeatherRepository {
     fun insertLocation(location: Location)
 
     fun insertForecast(forecast: DailyForecast)
+
+    fun deleteOldForecasts(location: String)
 }
