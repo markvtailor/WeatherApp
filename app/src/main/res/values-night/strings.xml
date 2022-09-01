@@ -2,7 +2,7 @@
 <resources>
     <string name="add_icon">add icon</string>
     <string name="weather">Погода</string>
-    <string name="celcius">℃</string>
+    <string name="celsius">℃</string>
     <string name="today">Сегодня</string>
     <string name="tomorrow">Завтра</string>
     <string name="link"><![CDATA[Подробнее >]]></string>
@@ -15,6 +15,9 @@
     <string name="wind_direction">Направление</string>
     <string name="accuweather">Данные предоставлены AccuWeather</string>
     <string name="today_weather_icon">Today weather icon</string>
-    <string name="wind_template">%s км/ч</string>
+    <string name="wind_template">%s %s</string>
+    <string name="fahrenheit">℉</string>
+    <string name="degrees">%s°</string>
+    <string name="metrics">Система измерения</string>
 
 </resources>

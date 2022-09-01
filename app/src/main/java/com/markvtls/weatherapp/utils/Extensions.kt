@@ -9,14 +9,22 @@ fun String.getDayOfWeek(): String {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.getDefault())
     val formattedDate = dateFormatter.parse(this)
     val formatter = SimpleDateFormat("EEEE", Locale.getDefault())
-    return formatter.format(formattedDate).replaceFirstChar { it.uppercase() }
+    return formatter.format(formattedDate).translateDayOfWeek().replaceFirstChar { it.uppercase() }
 }
 fun String.getShortDayOfWeek(): String {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.getDefault())
     val formattedDate = dateFormatter.parse(this)
     val formatter = SimpleDateFormat("EEEE", Locale.getDefault())
-    val day = formatter.format(formattedDate).replaceFirstChar { it.uppercase() }
-    return "${day[0]}${day[1]}"
+    return when(formatter.format(formattedDate).translateDayOfWeek().replaceFirstChar { it.uppercase() }) {
+        "Понедельник" -> "Пн"
+        "Вторник" -> "Вт"
+        "Среда" -> "Ср"
+        "Четверг" -> "Чт"
+        "Пятница" -> "Пт"
+        "Суббота" -> "Сб"
+        "Воскресенье" -> "Вс"
+        else -> "?"
+    }
 }
 fun String.getTime(): String {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
@@ -51,6 +59,26 @@ fun Float.checkHourValue(minValue: Float): Float {
     return if (this < minValue) 0.0F else this
  }
 
+fun String.chooseDegreesUnit(): String {
+    return if (this == "F") "\u2109" else "\u2103"
+}
+
+fun String.translateSpeedUnit(): String {
+    return if (this == "mi/h") "миль/ч" else "км/ч"
+}
+fun String.translateDayOfWeek(): String {
+    println(this)
+    return when(this) {
+        "Monday" -> "Понедельник"
+        "Tuesday" -> "Вторник"
+        "Wednesday" -> "Среда"
+        "Thursday" -> "Четверг"
+        "Friday" -> "Пятница"
+        "Saturday" -> "Суббота"
+        "Sunday" -> "Воскресенье"
+        else -> this
+    }
+}
 fun Int.chooseIcon(): Int {
     return when(this) {
         1 -> R.drawable.weather_1

@@ -7,7 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.markvtls.weatherapp.data.dto.LocationResponse
 import com.markvtls.weatherapp.data.source.local.LocationForecasts
 import com.markvtls.weatherapp.domain.model.Coordinates
-import com.markvtls.weatherapp.domain.use_cases.*
+import com.markvtls.weatherapp.domain.use_cases.settings.GetMetricSettingsUseCase
+import com.markvtls.weatherapp.domain.use_cases.weather.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -26,7 +27,8 @@ class WeatherViewModel @Inject constructor(
     private val insertLocation: InsertLocationUseCase,
     private val getForecastsForLocation: GetForecastsForLocationUseCase,
     private val saveLastLocation: SaveLastLocationUseCase,
-    private val getLastLocation: GetLastLocationUseCase
+    private val getLastLocation: GetLastLocationUseCase,
+    private val getMetricSettings: GetMetricSettingsUseCase,
 ) : ViewModel() {
 
     private var _coordinates: Flow<Coordinates> = getCoordinates()
@@ -35,6 +37,7 @@ class WeatherViewModel @Inject constructor(
     val lastLocation get() = _lastLocation
     private var _forecastsList = MutableLiveData<List<LocationForecasts>>()
     val forecastsList = _forecastsList
+    private val metricSettings = getMetricSettings()
 
 
     init {
@@ -87,11 +90,14 @@ class WeatherViewModel @Inject constructor(
     }
     fun getFiveDaysForecast(location: LocationResponse) {
         viewModelScope.launch(Dispatchers.IO) {
-                getForecast(location.Key).collect { forecastResponse ->
+            metricSettings.collect { metricSettings ->
+                getForecast(location.Key, metricSettings).collect { forecastResponse ->
                     insertLocation(location)
                     deleteOldForecast(location.LocalizedName)
                     insertForecast(location.LocalizedName, forecastResponse)
                 }
             }
+            }
+
         }
     }

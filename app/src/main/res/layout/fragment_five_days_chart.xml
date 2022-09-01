@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         >
-        <com.google.android.material.imageview.ShapeableImageView
+        <ImageButton
+            android:background="@android:color/transparent"
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -189,55 +190,67 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/weather_1" />
 
-            <TextView
-                android:id="@+id/day_one_wind"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/night_one_icon"
-                android:paddingStart="7dp"
-                android:paddingEnd="7dp"
-                android:textAlignment="center" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_below="@id/night_one_icon">
 
-            <TextView
-                android:id="@+id/day_two_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/night_one_icon"
-                android:layout_toEndOf="@id/day_one_wind"
-                android:gravity="center"
-                android:paddingStart="7dp"
-                android:paddingEnd="7dp"
-                android:textAlignment="center" />
-            <TextView
-                android:id="@+id/day_three_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/night_one_icon"
-                android:layout_toEndOf="@id/day_two_wind"
-                android:gravity="center"
-                android:paddingStart="7dp"
-                android:paddingEnd="7dp"
-                android:textAlignment="center" />
-            <TextView
-                android:id="@+id/day_four_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/night_one_icon"
-                android:layout_toEndOf="@id/day_three_wind"
-                android:gravity="center"
-                android:paddingStart="7dp"
-                android:paddingEnd="7dp"
-                android:textAlignment="center" />
-            <TextView
-                android:id="@+id/day_five_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/night_one_icon"
-                android:layout_toEndOf="@id/day_four_wind"
-                android:gravity="center"
-                android:paddingStart="7dp"
-                android:paddingEnd="7dp"
-                android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/day_one_wind"
+                    android:layout_weight="1"
+                    android:textSize="11sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/day_two_wind"
+                    android:layout_weight="1"
+                    android:textSize="11sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/day_three_wind"
+                    android:layout_weight="1"
+                    android:textSize="11sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/day_four_wind"
+                    android:layout_weight="1"
+                    android:textSize="11sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/day_five_wind"
+                    android:layout_weight="2"
+                    android:textSize="11sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="7dp"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
 
         </RelativeLayout>
     </LinearLayout>

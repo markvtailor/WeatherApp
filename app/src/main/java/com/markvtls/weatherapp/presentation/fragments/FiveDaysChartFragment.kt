@@ -23,7 +23,9 @@ import com.markvtls.weatherapp.presentation.WeatherViewModel
 import com.markvtls.weatherapp.utils.chooseIcon
 import com.markvtls.weatherapp.utils.formatDate
 import com.markvtls.weatherapp.utils.getShortDayOfWeek
+import com.markvtls.weatherapp.utils.translateSpeedUnit
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalTime
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -39,6 +41,7 @@ class FiveDaysChartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFiveDaysChartBinding.inflate(inflater, container, false)
+        viewModel.getLocationForecast(args.location)
         viewModel.forecastsList.observe(viewLifecycleOwner) { forecastsList ->
             val forecasts = forecastsList.first().forecasts
             binding.apply {
@@ -48,13 +51,30 @@ class FiveDaysChartFragment : Fragment() {
                 dayFour.text = "  ${forecasts[3].date.getShortDayOfWeek()} \n ${forecasts[3].date.formatDate()}"
                 dayFive.text = "  ${forecasts[4].date.getShortDayOfWeek()} \n ${forecasts[4].date.formatDate()}"
             }
-
+            val currentTime = LocalTime.now().hour
+            if (currentTime in 4..21) {
+                binding.apply {
+                    dayOneWind.text = getString(R.string.wind_template, forecasts[0].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayTwoWind.text = getString(R.string.wind_template, forecasts[1].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayThreeWind.text = getString(R.string.wind_template, forecasts[2].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayFourWind.text = getString(R.string.wind_template, forecasts[3].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayFiveWind.text = getString(R.string.wind_template, forecasts[4].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                }
+            } else {
+                binding.apply {
+                    dayOneWind.text = getString(R.string.wind_template, forecasts[0].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayTwoWind.text = getString(R.string.wind_template, forecasts[1].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayThreeWind.text = getString(R.string.wind_template, forecasts[2].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayFourWind.text = getString(R.string.wind_template, forecasts[3].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayFiveWind.text = getString(R.string.wind_template, forecasts[4].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                }
+            }
             binding.apply {
-                dayOneWind.text = getString(R.string.wind_template, forecasts[0].day.Wind.Speed.Value.toString())
-                dayTwoWind.text = getString(R.string.wind_template, forecasts[1].day.Wind.Speed.Value.toString())
-                dayThreeWind.text = getString(R.string.wind_template, forecasts[2].day.Wind.Speed.Value.toString())
-                dayFourWind.text = getString(R.string.wind_template, forecasts[3].day.Wind.Speed.Value.toString())
-                dayFiveWind.text = getString(R.string.wind_template, forecasts[4].day.Wind.Speed.Value.toString())
+                dayOneWind.text = getString(R.string.wind_template, forecasts[0].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                dayTwoWind.text = getString(R.string.wind_template, forecasts[1].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                dayThreeWind.text = getString(R.string.wind_template, forecasts[2].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                dayFourWind.text = getString(R.string.wind_template, forecasts[3].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                dayFiveWind.text = getString(R.string.wind_template, forecasts[4].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
             }
             binding.apply {
                 dayOneIcon.setImageResource(forecasts[0].day.Icon.chooseIcon())
@@ -71,7 +91,7 @@ class FiveDaysChartFragment : Fragment() {
             }
         }
 
-        viewModel.getLocationForecast(args.location)
+
         return binding.root
     }
 
@@ -80,6 +100,7 @@ class FiveDaysChartFragment : Fragment() {
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_global_weatherFragment)
         }
+
         viewModel.forecastsList.observe(viewLifecycleOwner) {
             drawChart(it.first().forecasts)
         }

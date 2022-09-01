@@ -1,7 +1,10 @@
 package com.markvtls.weatherapp.di
 
+import com.markvtls.weatherapp.domain.repositories.SettingsRepository
 import com.markvtls.weatherapp.domain.repositories.WeatherRepository
-import com.markvtls.weatherapp.domain.use_cases.*
+import com.markvtls.weatherapp.domain.use_cases.settings.GetMetricSettingsUseCase
+import com.markvtls.weatherapp.domain.use_cases.settings.SaveMetricSettingsUseCase
+import com.markvtls.weatherapp.domain.use_cases.weather.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,4 +62,18 @@ object UseCaseModule {
     fun provideGetLastLocationUseCase(repository: WeatherRepository): GetLastLocationUseCase {
         return GetLastLocationUseCase(repository)
     }
+
+    @Singleton
+    @Provides
+    fun provideSaveMetricSettingsUseCase(repository: SettingsRepository): SaveMetricSettingsUseCase {
+        return SaveMetricSettingsUseCase(repository)
+    }
+
+
+    @Provides
+    fun provideGetMetricSettingsUseCase(repository: SettingsRepository): GetMetricSettingsUseCase {
+        return GetMetricSettingsUseCase(repository)
+    }
+
+
 }

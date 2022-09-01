@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_weatherFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_weatherFragment_to_sendScreenFragment"
+            app:destination="@id/sendScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/fiveDaysChartFragment"
@@ -38,4 +41,14 @@
         android:name="com.markvtls.weatherapp.presentation.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/sendScreenFragment"
+        android:name="com.markvtls.weatherapp.presentation.fragments.SendScreenFragment"
+        android:label="fragment_send_screen"
+        tools:layout="@layout/fragment_send_screen" >
+        <argument
+            android:name="location"
+            app:argType="string"
+            android:defaultValue="Пенза" />
+    </fragment>
 </navigation>

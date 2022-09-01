@@ -1,4 +1,4 @@
-package com.markvtls.weatherapp.domain.use_cases
+package com.markvtls.weatherapp.domain.use_cases.weather
 
 import com.markvtls.weatherapp.data.source.local.LocationForecasts
 import com.markvtls.weatherapp.domain.repositories.WeatherRepository

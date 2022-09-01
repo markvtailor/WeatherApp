@@ -1,0 +1,29 @@
+package com.markvtls.weatherapp.presentation
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.markvtls.weatherapp.domain.use_cases.settings.GetMetricSettingsUseCase
+import com.markvtls.weatherapp.domain.use_cases.settings.SaveMetricSettingsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val saveMetricSettings: SaveMetricSettingsUseCase,
+    private val getMetricSettings: GetMetricSettingsUseCase
+): ViewModel() {
+
+    private var _metricSettings = getMetricSettings()
+    val metricSettings get() = _metricSettings
+
+
+    fun saveMetric(metric: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            saveMetricSettings(metric)
+        }
+    }
+
+
+}
