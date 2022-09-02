@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection", "SpellCheckingInspection", "SpellCheckingInspection")
+
 package com.markvtls.weatherapp.utils
 
 object Constants {

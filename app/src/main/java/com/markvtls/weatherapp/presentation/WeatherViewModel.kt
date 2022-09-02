@@ -28,11 +28,11 @@ class WeatherViewModel @Inject constructor(
     private val getForecastsForLocation: GetForecastsForLocationUseCase,
     private val saveLastLocation: SaveLastLocationUseCase,
     private val getLastLocation: GetLastLocationUseCase,
-    private val getMetricSettings: GetMetricSettingsUseCase,
+    getMetricSettings: GetMetricSettingsUseCase,
 ) : ViewModel() {
 
     private var _coordinates: Flow<Coordinates> = getCoordinates()
-    val coordinates get() = _coordinates
+    private val coordinates get() = _coordinates
     private var _lastLocation = MutableLiveData<LocationResponse>()
     val lastLocation get() = _lastLocation
     private var _forecastsList = MutableLiveData<List<LocationForecasts>>()
@@ -60,8 +60,8 @@ class WeatherViewModel @Inject constructor(
     fun getCurrentLocation() {
         viewModelScope.launch {
             try {
-                coordinates.collect { coords ->
-                    getLocation(coords).collect {
+                coordinates.collect { currentCoordinates ->
+                    getLocation(currentCoordinates).collect {
                         if (lastLocation.value != it) {
                             lastLocation.postValue(it)
                             saveLastLocation(it.LocalizedName)

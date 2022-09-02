@@ -2,25 +2,19 @@ package com.markvtls.weatherapp.presentation.fragments
 
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
-import android.graphics.Bitmap
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
-import android.view.*
-import androidx.appcompat.widget.PopupMenu
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
-import androidx.core.view.drawToBitmap
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.markvtls.weatherapp.R
 import com.markvtls.weatherapp.databinding.FragmentWeatherBinding
 import com.markvtls.weatherapp.presentation.WeatherViewModel
 import com.markvtls.weatherapp.presentation.adapters.WeatherListAdapter
@@ -61,10 +55,6 @@ class WeatherFragment : Fragment() {
             viewModel.getFiveDaysForecast(it)
             viewModel.getLocationForecast(it.LocalizedName)
         }
-        viewModel.coordinates.asLiveData().observe(viewLifecycleOwner) { coordinates ->
-                println(coordinates.latitude)
-                println(coordinates.longitude)
-            }
 
         }
 
@@ -126,9 +116,7 @@ class WeatherFragment : Fragment() {
         startActivity(intent)
     }
 
-    private fun takeScreenshot(v: View) {
-        val screenshot = v.drawToBitmap(Bitmap.Config.ARGB_8888)
-    }
+
 
 
 

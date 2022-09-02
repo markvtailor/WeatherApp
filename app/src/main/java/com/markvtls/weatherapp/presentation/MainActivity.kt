@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_CODE = 10
         private val REQUIRED_PERMISSIONS = mutableListOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.INTERNET

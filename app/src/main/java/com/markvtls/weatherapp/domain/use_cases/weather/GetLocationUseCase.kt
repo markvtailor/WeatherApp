@@ -13,8 +13,8 @@ class GetLocationUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
     operator fun invoke(coordinates: Coordinates): Flow<LocationResponse> = flow {
-        val coords = "${coordinates.latitude},${coordinates.longitude}"
-        val response = repository.getLocationFromApi(ACCUWEATHER_API_KEY, coords, TARGET_LANGUAGE)
+        val coordinatesForRequest = "${coordinates.latitude},${coordinates.longitude}"
+        val response = repository.getLocationFromApi(ACCUWEATHER_API_KEY, coordinatesForRequest, TARGET_LANGUAGE)
         emit(response)
     }
 }

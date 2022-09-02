@@ -2,7 +2,6 @@ package com.markvtls.weatherapp.presentation.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -45,31 +44,34 @@ class WeatherListAdapter(private val toSettings: (String) -> Unit,
                             private val toChart: (String) -> Unit,
                             private val openUrl: (String) -> Unit ): RecyclerView.ViewHolder(binding.root) {
         fun bind(forecastsList: LocationForecasts) {
-            this.itemView.context
             val forecasts = forecastsList.forecasts
+            val context = itemView.context
+            val today = forecasts[0]
+            val tomorrow = forecasts[1]
+            val thirdDay = forecasts[2]
             val currentTime = LocalTime.now().hour
             if (currentTime in 4..21) {
                 binding.apply {
                     toolbarTitle.text = forecastsList.location.locationName
-                    tempUnit.text = forecasts.first().temperature.Maximum.Unit.chooseDegreesUnit()
-                    currentTemp.text = forecasts.first().temperature.Maximum.Value.roundToInt().toString()
-                    description.text = forecasts.first().day.IconPhrase
-                    todayWeatherTemp.text = "${forecasts.first().temperature.Maximum.Value.roundToInt()}° / ${forecasts.first().temperature.Minimum.Value.roundToInt()}°"
-                    tomorrowWeatherTemp.text = "${forecasts[1].temperature.Maximum.Value.roundToInt()}° / ${forecasts[1].temperature.Minimum.Value.roundToInt()}°"
-                    thirdDayWeather.text = forecasts[2].date.getDayOfWeek()
-                    thirdDayWeatherTemp.text = "${forecasts[2].temperature.Maximum.Value.roundToInt()}° / ${forecasts[2].temperature.Minimum.Value.roundToInt()}°"
-                    tempFeelsLikeValue.text = "${forecasts.first().temperature.Maximum.Value.roundToInt()}°"
-                    rainProbabilityValue.text = forecasts.first().day.RainProbability.toString()
-                    windSpeedValue.text = "${forecasts.first().day.Wind.Speed.Value} ${forecasts.first().day.Wind.Speed.Unit.translateSpeedUnit()}"
-                    windDirectionValue.text = forecasts.first().day.Wind.Direction.Localized
-                    feelingDescriptionValue.text = forecasts.first().feelTemperature.Maximum.Phrase
-                    precipitationValue.text = forecasts.first().day.HasPrecipitation.yesOrNo()
-                    sunRiseTime.text = forecasts.first().sun.Rise.getTime()
-                    sunSetTime.text = forecasts.first().sun.Set.getTime()
-                    sunRiseBar.cap = forecasts.first().sun.Set.getHourFromTime()
+                    tempUnit.text = today.temperature.Maximum.Unit.chooseDegreesUnit()
+                    currentTemp.text = today.temperature.Maximum.Value.roundToInt().toString()
+                    description.text = today.day.IconPhrase
+                    todayWeatherTemp.text = context.getString(R.string.temp_template,today.temperature.Maximum.Value.roundToInt().toString(),today.temperature.Minimum.Value.roundToInt().toString())
+                    thirdDayWeatherTemp.text = context.getString(R.string.temp_template,thirdDay.temperature.Maximum.Value.roundToInt().toString(),thirdDay.temperature.Minimum.Value.roundToInt().toString())
+                    tomorrowWeatherTemp.text = context.getString(R.string.temp_template,tomorrow.temperature.Maximum.Value.roundToInt().toString(),tomorrow.temperature.Minimum.Value.roundToInt().toString())
+                    thirdDayWeather.text = thirdDay.date.getDayOfWeek()
+                    tempFeelsLikeValue.text = context.getString(R.string.degrees,today.temperature.Maximum.Value.roundToInt().toString())
+                    rainProbabilityValue.text = today.day.RainProbability.toString()
+                    windSpeedValue.text = context.getString(R.string.wind_template,today.day.Wind.Speed.Value.toString(),today.day.Wind.Speed.Unit.translateSpeedUnit())
+                    windDirectionValue.text = today.day.Wind.Direction.Localized
+                    feelingDescriptionValue.text = today.feelTemperature.Maximum.Phrase
+                    precipitationValue.text = today.day.HasPrecipitation.yesOrNo()
+                    sunRiseTime.text = today.sun.Rise.getTime()
+                    sunSetTime.text = today.sun.Set.getTime()
+                    sunRiseBar.cap = today.sun.Set.getHourFromTime()
                     sunRiseBar.addAmount(
                         "",
-                        currentTime.toFloat().checkHourValue(forecasts.first().sun.Rise.getHourFromTime()),
+                        currentTime.toFloat().checkHourValue(today.sun.Rise.getHourFromTime()),
                         color = Color.YELLOW
                     )
                     fiveDaysForecast.setOnClickListener {
@@ -77,7 +79,7 @@ class WeatherListAdapter(private val toSettings: (String) -> Unit,
                     }
 
                     link.setOnClickListener {
-                        openUrl(forecasts.first().link)
+                        openUrl(today.link)
                     }
 
                     popupMenu.setOnClickListener {
@@ -100,33 +102,33 @@ class WeatherListAdapter(private val toSettings: (String) -> Unit,
                         }
 
                     }
-                    todayWeatherIcon.setImageResource(forecasts[0].day.Icon.chooseIcon())
-                    tomorrowWeatherIcon.setImageResource(forecasts[1].day.Icon.chooseIcon())
-                    thirdDayWeatherIcon.setImageResource(forecasts[2].day.Icon.chooseIcon())
+                    todayWeatherIcon.setImageResource(today.day.Icon.chooseIcon())
+                    tomorrowWeatherIcon.setImageResource(tomorrow.day.Icon.chooseIcon())
+                    thirdDayWeatherIcon.setImageResource(thirdDay.day.Icon.chooseIcon())
 
                 }
             } else {
                 binding.apply {
                     toolbarTitle.text = forecastsList.location.locationName
-                    currentTemp.text = forecasts.first().temperature.Maximum.Value.roundToInt().toString()
-                    tempUnit.text = forecasts.first().temperature.Maximum.Unit.chooseDegreesUnit()
-                    description.text = forecasts.first().night.IconPhrase
-                    todayWeatherTemp.text = "${forecasts.first().temperature.Maximum.Value.roundToInt()}° / ${forecasts.first().temperature.Minimum.Value.roundToInt()}°"
-                    tomorrowWeatherTemp.text = "${forecasts[1].temperature.Maximum.Value.roundToInt()}° / ${forecasts[1].temperature.Minimum.Value.roundToInt()}°"
-                    thirdDayWeather.text = forecasts[2].date.getDayOfWeek()
-                    thirdDayWeatherTemp.text = "${forecasts[2].temperature.Maximum.Value.roundToInt()}° / ${forecasts[2].temperature.Minimum.Value.roundToInt()}°"
-                    tempFeelsLikeValue.text = "${forecasts.first().temperature.Maximum.Value.roundToInt()}°"
-                    rainProbabilityValue.text = forecasts.first().night.RainProbability.toString()
-                    windSpeedValue.text = "${forecasts.first().night.Wind.Speed.Value} ${forecasts.first().night.Wind.Speed.Unit}"
-                    windDirectionValue.text = forecasts.first().night.Wind.Direction.Localized
-                    feelingDescriptionValue.text = forecasts.first().feelTemperature.Maximum.Phrase
-                    precipitationValue.text = forecasts.first().night.HasPrecipitation.yesOrNo()
-                    sunRiseTime.text = forecasts.first().sun.Rise.getTime()
-                    sunSetTime.text = forecasts.first().sun.Set.getTime()
-                    sunRiseBar.cap = forecasts.first().sun.Set.getHourFromTime()
+                    currentTemp.text = today.temperature.Maximum.Value.roundToInt().toString()
+                    tempUnit.text = today.temperature.Maximum.Unit.chooseDegreesUnit()
+                    description.text = today.night.IconPhrase
+                    todayWeatherTemp.text = context.getString(R.string.temp_template,today.temperature.Maximum.Value.roundToInt().toString(),today.temperature.Minimum.Value.roundToInt().toString())
+                    thirdDayWeatherTemp.text = context.getString(R.string.temp_template,thirdDay.temperature.Maximum.Value.roundToInt().toString(),thirdDay.temperature.Minimum.Value.roundToInt().toString())
+                    tomorrowWeatherTemp.text = context.getString(R.string.temp_template,tomorrow.temperature.Maximum.Value.roundToInt().toString(),tomorrow.temperature.Minimum.Value.roundToInt().toString())
+                    thirdDayWeather.text = thirdDay.date.getDayOfWeek()
+                    tempFeelsLikeValue.text = context.getString(R.string.degrees,today.temperature.Maximum.Value.roundToInt().toString())
+                    rainProbabilityValue.text = today.night.RainProbability.toString()
+                    windSpeedValue.text = context.getString(R.string.wind_template,today.day.Wind.Speed.Value.toString(),today.day.Wind.Speed.Unit.translateSpeedUnit())
+                    windDirectionValue.text = today.night.Wind.Direction.Localized
+                    feelingDescriptionValue.text = today.feelTemperature.Maximum.Phrase
+                    precipitationValue.text = today.night.HasPrecipitation.yesOrNo()
+                    sunRiseTime.text = today.sun.Rise.getTime()
+                    sunSetTime.text = today.sun.Set.getTime()
+                    sunRiseBar.cap = today.sun.Set.getHourFromTime()
                     sunRiseBar.addAmount(
                         "",
-                        currentTime.toFloat().checkHourValue(forecasts.first().sun.Rise.getHourFromTime()),
+                        currentTime.toFloat().checkHourValue(today.sun.Rise.getHourFromTime()),
                         color = Color.YELLOW
                     )
                     fiveDaysForecast.setOnClickListener {
@@ -134,11 +136,11 @@ class WeatherListAdapter(private val toSettings: (String) -> Unit,
                     }
 
                     link.setOnClickListener {
-                        openUrl(forecasts.first().link)
+                        openUrl(today.link)
                     }
 
                     popupMenu.setOnClickListener {
-                        PopupMenu(itemView.context, it).apply {
+                        PopupMenu(context, it).apply {
                             setOnMenuItemClickListener { item ->
                                 when (item.itemId) {
                                     R.id.settings -> {
@@ -157,9 +159,9 @@ class WeatherListAdapter(private val toSettings: (String) -> Unit,
                         }
 
                     }
-                    todayWeatherIcon.setImageResource(forecasts[0].day.Icon.chooseIcon())
-                    tomorrowWeatherIcon.setImageResource(forecasts[1].day.Icon.chooseIcon())
-                    thirdDayWeatherIcon.setImageResource(forecasts[2].day.Icon.chooseIcon())
+                    todayWeatherIcon.setImageResource(today.day.Icon.chooseIcon())
+                    tomorrowWeatherIcon.setImageResource(tomorrow.day.Icon.chooseIcon())
+                    thirdDayWeatherIcon.setImageResource(thirdDay.day.Icon.chooseIcon())
                 }
             }
 

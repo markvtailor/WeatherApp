@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.markvtls.weatherapp.utils
 
 import com.markvtls.weatherapp.R
@@ -67,7 +69,6 @@ fun String.translateSpeedUnit(): String {
     return if (this == "mi/h") "миль/ч" else "км/ч"
 }
 fun String.translateDayOfWeek(): String {
-    println(this)
     return when(this) {
         "Monday" -> "Понедельник"
         "Tuesday" -> "Вторник"

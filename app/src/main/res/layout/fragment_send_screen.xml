@@ -14,6 +14,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/share_screen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/gblue"
@@ -74,6 +75,7 @@
                         android:layout_gravity="center"/>
                     <ImageView
                         android:id="@+id/day_one_icon"
+                        android:contentDescription="@string/icon_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/weather_1"
@@ -106,6 +108,8 @@
                         android:layout_gravity="center"/>
                     <ImageView
                         android:id="@+id/day_two_icon"
+                        android:contentDescription="@string/icon_description"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/weather_1"
@@ -138,6 +142,7 @@
                         android:layout_gravity="center"/>
                     <ImageView
                         android:id="@+id/day_three_icon"
+                        android:contentDescription="@string/icon_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/weather_1"
@@ -169,6 +174,7 @@
                         android:layout_gravity="center"/>
                     <ImageView
                         android:id="@+id/day_four_icon"
+                        android:contentDescription="@string/icon_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/weather_1"
@@ -200,6 +206,7 @@
                         android:layout_gravity="center"/>
                     <ImageView
                         android:id="@+id/day_five_icon"
+                        android:contentDescription="@string/icon_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/weather_1"
@@ -230,6 +237,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+           >
+
+
+            <ImageButton
+                android:id="@+id/send_button"
+                android:layout_weight="1"
+                android:layout_gravity="bottom"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_send" />
+
+            <ImageButton
+                android:contentDescription="@string/icon_description"
+                android:id="@+id/cancel_button"
+                android:background="@android:color/transparent"
+                android:layout_gravity="bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_cancel"/>
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

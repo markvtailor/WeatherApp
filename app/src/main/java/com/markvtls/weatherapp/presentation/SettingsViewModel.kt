@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val saveMetricSettings: SaveMetricSettingsUseCase,
-    private val getMetricSettings: GetMetricSettingsUseCase
+    getMetricSettings: GetMetricSettingsUseCase
 ): ViewModel() {
 
     private var _metricSettings = getMetricSettings()

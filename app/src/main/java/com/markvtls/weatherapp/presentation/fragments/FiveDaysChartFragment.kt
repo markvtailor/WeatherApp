@@ -1,15 +1,13 @@
 package com.markvtls.weatherapp.presentation.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -43,51 +41,59 @@ class FiveDaysChartFragment : Fragment() {
         _binding = FragmentFiveDaysChartBinding.inflate(inflater, container, false)
         viewModel.getLocationForecast(args.location)
         viewModel.forecastsList.observe(viewLifecycleOwner) { forecastsList ->
-            val forecasts = forecastsList.first().forecasts
+            val forecasts = forecastsList[0].forecasts
+            val firstDay = forecasts[0]
+            val secondDay = forecasts[1]
+            val thirdDay = forecasts[2]
+            val fourthDay = forecasts[3]
+            val fifthDay = forecasts[4]
             binding.apply {
-                dayOne.text = "Cегодня \n ${forecasts[0].date.formatDate()}"
-                dayTwo.text = "Завтра \n ${forecasts[1].date.formatDate()}"
-                dayThree.text = "  ${forecasts[2].date.getShortDayOfWeek()} \n ${forecasts[2].date.formatDate()}"
-                dayFour.text = "  ${forecasts[3].date.getShortDayOfWeek()} \n ${forecasts[3].date.formatDate()}"
-                dayFive.text = "  ${forecasts[4].date.getShortDayOfWeek()} \n ${forecasts[4].date.formatDate()}"
+                dayOne.text = getString(R.string.icon_today_template, firstDay.date.formatDate())
+                dayTwo.text = getString(R.string.icon_tomorrow_template, secondDay.date.formatDate())
+                dayThree.text = getString(R.string.icon_info_template,
+                    thirdDay.date.getShortDayOfWeek(),thirdDay.date.formatDate())
+                dayFour.text = getString(R.string.icon_info_template,
+                    fourthDay.date.getShortDayOfWeek(),fourthDay.date.formatDate())
+                dayFive.text = getString(R.string.icon_info_template,
+                    fifthDay.date.getShortDayOfWeek(),fifthDay.date.formatDate())
             }
             val currentTime = LocalTime.now().hour
             if (currentTime in 4..21) {
                 binding.apply {
-                    dayOneWind.text = getString(R.string.wind_template, forecasts[0].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                    dayTwoWind.text = getString(R.string.wind_template, forecasts[1].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                    dayThreeWind.text = getString(R.string.wind_template, forecasts[2].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                    dayFourWind.text = getString(R.string.wind_template, forecasts[3].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                    dayFiveWind.text = getString(R.string.wind_template, forecasts[4].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayOneWind.text = getString(R.string.wind_template, firstDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayTwoWind.text = getString(R.string.wind_template, secondDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayThreeWind.text = getString(R.string.wind_template, thirdDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayFourWind.text = getString(R.string.wind_template, fourthDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayFiveWind.text = getString(R.string.wind_template, fifthDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
                 }
             } else {
                 binding.apply {
-                    dayOneWind.text = getString(R.string.wind_template, forecasts[0].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                    dayTwoWind.text = getString(R.string.wind_template, forecasts[1].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                    dayThreeWind.text = getString(R.string.wind_template, forecasts[2].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                    dayFourWind.text = getString(R.string.wind_template, forecasts[3].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                    dayFiveWind.text = getString(R.string.wind_template, forecasts[4].night.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayOneWind.text = getString(R.string.wind_template, firstDay.night.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayTwoWind.text = getString(R.string.wind_template, secondDay.night.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayThreeWind.text = getString(R.string.wind_template, thirdDay.night.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayFourWind.text = getString(R.string.wind_template, fourthDay.night.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                    dayFiveWind.text = getString(R.string.wind_template, fifthDay.night.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
                 }
             }
             binding.apply {
-                dayOneWind.text = getString(R.string.wind_template, forecasts[0].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                dayTwoWind.text = getString(R.string.wind_template, forecasts[1].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                dayThreeWind.text = getString(R.string.wind_template, forecasts[2].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                dayFourWind.text = getString(R.string.wind_template, forecasts[3].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
-                dayFiveWind.text = getString(R.string.wind_template, forecasts[4].day.Wind.Speed.Value.toString(), forecasts[0].day.Wind.Speed.Unit.translateSpeedUnit())
+                dayOneWind.text = getString(R.string.wind_template, firstDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                dayTwoWind.text = getString(R.string.wind_template, secondDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                dayThreeWind.text = getString(R.string.wind_template, thirdDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                dayFourWind.text = getString(R.string.wind_template, fourthDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
+                dayFiveWind.text = getString(R.string.wind_template, fifthDay.day.Wind.Speed.Value.toString(), firstDay.day.Wind.Speed.Unit.translateSpeedUnit())
             }
             binding.apply {
-                dayOneIcon.setImageResource(forecasts[0].day.Icon.chooseIcon())
-                dayTwoIcon.setImageResource(forecasts[1].day.Icon.chooseIcon())
-                dayThreeIcon.setImageResource(forecasts[2].day.Icon.chooseIcon())
-                dayFourIcon.setImageResource(forecasts[3].day.Icon.chooseIcon())
-                dayFiveIcon.setImageResource(forecasts[4].day.Icon.chooseIcon())
+                dayOneIcon.setImageResource(firstDay.day.Icon.chooseIcon())
+                dayTwoIcon.setImageResource(secondDay.day.Icon.chooseIcon())
+                dayThreeIcon.setImageResource(thirdDay.day.Icon.chooseIcon())
+                dayFourIcon.setImageResource(fourthDay.day.Icon.chooseIcon())
+                dayFiveIcon.setImageResource(fifthDay.day.Icon.chooseIcon())
 
-                nightOneIcon.setImageResource(forecasts[0].night.Icon.chooseIcon())
-                nightTwoIcon.setImageResource(forecasts[1].night.Icon.chooseIcon())
-                nightThreeIcon.setImageResource(forecasts[2].night.Icon.chooseIcon())
-                nightFourIcon.setImageResource(forecasts[3].night.Icon.chooseIcon())
-                nightFiveIcon.setImageResource(forecasts[4].night.Icon.chooseIcon())
+                nightOneIcon.setImageResource(firstDay.night.Icon.chooseIcon())
+                nightTwoIcon.setImageResource(secondDay.night.Icon.chooseIcon())
+                nightThreeIcon.setImageResource(thirdDay.night.Icon.chooseIcon())
+                nightFourIcon.setImageResource(fourthDay.night.Icon.chooseIcon())
+                nightFiveIcon.setImageResource(fifthDay.night.Icon.chooseIcon())
             }
         }
 
