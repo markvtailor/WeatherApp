@@ -48,11 +48,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/current_temp"
+                android:layout_alignEnd="@id/current_temp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
+                android:maxLines="1"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,7 +88,8 @@
                         android:layout_gravity="center" />
                     <TextView
                         android:id="@+id/day_one_temp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="14sp"
@@ -118,7 +123,8 @@
                         android:layout_gravity="center" />
                     <TextView
                         android:id="@+id/day_two_temp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="14sp"
@@ -151,7 +157,8 @@
                         android:layout_gravity="center" />
                     <TextView
                         android:id="@+id/day_three_temp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="14sp"
@@ -183,7 +190,8 @@
                         android:layout_gravity="center" />
                     <TextView
                         android:id="@+id/day_four_temp"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
                         android:textSize="14sp"
@@ -215,8 +223,9 @@
                         android:layout_gravity="center" />
                     <TextView
                         android:id="@+id/day_five_temp"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textAppearance="?attr/textAppearanceBody2"
@@ -247,6 +256,7 @@
 
 
             <ImageButton
+                android:contentDescription="@string/share_button"
                 android:id="@+id/send_button"
                 android:layout_weight="1"
                 android:layout_gravity="bottom"
@@ -256,7 +266,7 @@
                 android:src="@drawable/ic_send" />
 
             <ImageButton
-                android:contentDescription="@string/icon_description"
+                android:contentDescription="@string/cancel_button"
                 android:id="@+id/cancel_button"
                 android:background="@android:color/transparent"
                 android:layout_gravity="bottom"

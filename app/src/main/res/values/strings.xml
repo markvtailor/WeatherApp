@@ -20,9 +20,12 @@
     <string name="temp_template">%s° / %s°</string>
     <string name="fahrenheit">℉</string>
     <string name="degrees">%s°</string>
-    <string name="icon_info_template"> %s \n %s</string>
+    <string name="icon_info_template">  %s \n %s</string>
     <string name="icon_today_template">Сегодня \n %s</string>
     <string name="icon_tomorrow_template">Завтра \n %s</string>
     <string name="metrics">Система измерения</string>
     <string name="icon_description">Иконка погоды</string>
+    <string name="share_button">Поделиться</string>
+    <string name="cancel_button">Отмена</string>
+    <string name="chart_title">Прогноз на 5 дней</string>
 </resources>

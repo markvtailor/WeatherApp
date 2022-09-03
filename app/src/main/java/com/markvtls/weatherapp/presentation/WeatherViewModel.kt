@@ -1,6 +1,7 @@
 package com.markvtls.weatherapp.presentation
 
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,7 +33,7 @@ class WeatherViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _coordinates: Flow<Coordinates> = getCoordinates()
-    private val coordinates get() = _coordinates
+    val coordinates get() = _coordinates
     private var _lastLocation = MutableLiveData<LocationResponse>()
     val lastLocation get() = _lastLocation
     private var _forecastsList = MutableLiveData<List<LocationForecasts>>()
@@ -41,7 +42,7 @@ class WeatherViewModel @Inject constructor(
 
 
     init {
-        getCurrentLocation()
+        //getCurrentLocation()
     }
 
 
@@ -63,23 +64,32 @@ class WeatherViewModel @Inject constructor(
                 coordinates.collect { currentCoordinates ->
                     getLocation(currentCoordinates).collect {
                         if (lastLocation.value != it) {
-                            lastLocation.postValue(it)
+                            _lastLocation.postValue(it)
                             saveLastLocation(it.LocalizedName)
                         }
                     }
                 }
             } catch (e: Exception) {
-                getLastLocation().collect {
-                    getLocationForecast(it)
-                    e.printStackTrace()
-                }
-
+                e.printStackTrace()
+                getForecastForLastLocation()
             }
 
         }
 
     }
+    fun getForecastForLastLocation() {
+        viewModelScope.launch {
+            try {
+                getLastLocation().collect {
+                    getLocationForecast(it)
+                }
+            } catch (e: Exception) {
+                Log.e("Forecasting", "Last location info is missing!")
+            }
 
+        }
+
+    }
     fun getLocationForecast(location: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getForecastsForLocation(location).collect {
