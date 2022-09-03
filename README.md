@@ -1,5 +1,5 @@
 # WeatherApp  
-**Использованные технологии:** Fragments, RecyclerView, ViewPager2, Navigation Component, Room, Retrofit, Moshi, Hilt, AccuWeatherAPI, LocationManager, MpAndroidChart, Git  
+**Использованные технологии:** Fragments, RecyclerView, ViewPager2, Navigation Component, Room, DataStore, Retrofit, Moshi, Hilt, AccuWeatherAPI,   LocationManager, MpAndroidChart, Git  
 **Архитектура:** MVVM+CA  
 **Описание:**  
 Приложение для получения прогноза погоды на 5 дней по местоположению юзера.  
