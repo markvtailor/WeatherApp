@@ -12,13 +12,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.markvtls.weatherapp.data.source.local.LocationForecasts
 import com.markvtls.weatherapp.databinding.FragmentWeatherBinding
 import com.markvtls.weatherapp.presentation.WeatherViewModel
 import com.markvtls.weatherapp.presentation.adapters.WeatherListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class WeatherFragment : Fragment() {
@@ -38,22 +43,38 @@ class WeatherFragment : Fragment() {
         _binding = FragmentWeatherBinding.inflate(inflater, container, false)
         locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager
         binding.root
+
         viewModel.getForecastForLastLocation()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        createList()
         location.observe(viewLifecycleOwner) { location ->
             viewModel.saveNewCoordinates(location.latitude, location.longitude)
-            viewModel.getCurrentLocation() //move somewhere
+            viewModel.getCurrentLocation()
         }
 
         viewModel.lastLocation.observe(viewLifecycleOwner) {
             viewModel.getFiveDaysForecast(it)
             viewModel.getLocationForecast(it.LocalizedName)
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.forecastsList.observe(viewLifecycleOwner) {
+                    createList(it)
+                }
+            }
+        }
+
+        viewModel.status.observe(viewLifecycleOwner) {
+            when (it.case) {
+                "SUCCESS" -> println()
+                "CONNECTION IS MISSING" -> notifyAboutRequestResult(it.case)
+            }
+        }
+
 
         }
 
@@ -72,7 +93,7 @@ class WeatherFragment : Fragment() {
 
     }
 
-    private fun createList() {
+    private fun createList(list: List<LocationForecasts>) {
         val viewPager = binding.viewPager
         val adapter = WeatherListAdapter(
             {
@@ -89,15 +110,7 @@ class WeatherFragment : Fragment() {
             }
         )
         viewPager.adapter = adapter
-        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            try {
-                viewModel.forecastsList.observe(viewLifecycleOwner) {
-                    adapter.submitList(it)
-                }
-            }catch (e: Exception) {
-
-            }
-        }
+        adapter.submitList(list)
     }
 
     private fun toChart(location: String) {
@@ -118,6 +131,15 @@ class WeatherFragment : Fragment() {
         startActivity(intent)
     }
 
+    private fun notifyAboutRequestResult(cause: String) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                Snackbar.make(requireView(), "Ошибка: $cause", Snackbar.LENGTH_LONG)
+                    .show()
+            }
+        }
+        viewModel.notificationCheck()
+    }
 
 
 

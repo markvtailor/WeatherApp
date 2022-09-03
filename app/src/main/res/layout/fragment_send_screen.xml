@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.fragments.SendScreenFragment">
+
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".presentation.fragments.SendScreenFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:orientation="vertical" >
-
-
 
         <RelativeLayout
             android:id="@+id/share_screen"
@@ -29,8 +26,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="120dp"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="112sp" />
+                android:textColor="@color/white" android:textSize="112sp" />
 
             <TextView
                 android:id="@+id/temp_unit"
@@ -50,12 +46,12 @@
                 android:layout_alignBaseline="@id/current_temp"
                 android:layout_alignEnd="@id/current_temp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="16dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
                 android:maxLines="1"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -276,5 +272,3 @@
                 android:src="@drawable/ic_cancel"/>
         </LinearLayout>
     </LinearLayout>
-
-</FrameLayout>

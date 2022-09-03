@@ -2,6 +2,7 @@ package com.markvtls.weatherapp.presentation
 
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,6 +33,14 @@ class WeatherViewModel @Inject constructor(
     getMetricSettings: GetMetricSettingsUseCase,
 ) : ViewModel() {
 
+    enum class ExceptionCases(val case: String) {
+        SUCCESS("SUCCESS"),
+        MISSING_CONNECTION("CONNECTION IS MISSING")
+    }
+
+    private var _status = MutableLiveData(ExceptionCases.SUCCESS)
+    val status: LiveData<ExceptionCases> get() = _status
+
     private var _coordinates: Flow<Coordinates> = getCoordinates()
     val coordinates get() = _coordinates
     private var _lastLocation = MutableLiveData<LocationResponse>()
@@ -40,10 +49,6 @@ class WeatherViewModel @Inject constructor(
     val forecastsList = _forecastsList
     private val metricSettings = getMetricSettings()
 
-
-    init {
-        //getCurrentLocation()
-    }
 
 
     fun saveNewCoordinates(latitude: Double, longitude: Double) {
@@ -71,6 +76,7 @@ class WeatherViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                _status.postValue(ExceptionCases.MISSING_CONNECTION)
                 getForecastForLastLocation()
             }
 
@@ -101,13 +107,24 @@ class WeatherViewModel @Inject constructor(
     fun getFiveDaysForecast(location: LocationResponse) {
         viewModelScope.launch(Dispatchers.IO) {
             metricSettings.collect { metricSettings ->
-                getForecast(location.Key, metricSettings).collect { forecastResponse ->
-                    insertLocation(location)
-                    deleteOldForecast(location.LocalizedName)
-                    insertForecast(location.LocalizedName, forecastResponse)
+                try {
+                    getForecast(location.Key, metricSettings).collect { forecastResponse ->
+                        insertLocation(location)
+                        deleteOldForecast(location.LocalizedName)
+                        insertForecast(location.LocalizedName, forecastResponse)
+                    }
+                } catch (e: Exception) {
+                    Log.e("Forecasting",e.stackTraceToString())
+                    _status.postValue(ExceptionCases.MISSING_CONNECTION)
                 }
+
             }
             }
 
         }
+
+    fun notificationCheck() {
+        _status.postValue(ExceptionCases.SUCCESS)
+    }
+
     }
