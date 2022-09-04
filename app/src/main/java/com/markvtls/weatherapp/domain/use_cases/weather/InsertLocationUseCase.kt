@@ -5,6 +5,9 @@ import com.markvtls.weatherapp.data.source.local.Location
 import com.markvtls.weatherapp.domain.repositories.WeatherRepository
 import javax.inject.Inject
 
+/**
+ * Use this to insert LocationsAPI response into WeatherDB.
+ */
 class InsertLocationUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {

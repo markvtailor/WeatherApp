@@ -11,6 +11,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Hilt module for providing use cases.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {

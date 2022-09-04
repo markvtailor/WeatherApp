@@ -12,7 +12,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
-
+/**
+ * Hilt module for providing remote data dependencies.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {

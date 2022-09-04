@@ -25,10 +25,15 @@ import com.markvtls.weatherapp.presentation.adapters.WeatherListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * This fragment is used to hold ViewPager with forecasts.
+ */
 @AndroidEntryPoint
 class WeatherFragment : Fragment() {
 
-
+    /**
+     * LocationManager instance.
+     */
     private lateinit var locationManager: LocationManager
     private var _binding: FragmentWeatherBinding? = null
     private val binding get() = _binding!!
@@ -44,18 +49,26 @@ class WeatherFragment : Fragment() {
         locationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager
         binding.root
 
+        /**
+         * Fetching last location forecasts from DB.
+         */
         viewModel.getForecastForLastLocation()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /** Observing coordinates' changes. */
         location.observe(viewLifecycleOwner) { location ->
+            /** Saving new coordinates and making a request to get user's current location */
             viewModel.saveNewCoordinates(location.latitude, location.longitude)
             viewModel.getCurrentLocation()
         }
 
+
+        /** Observing location changes. */
         viewModel.lastLocation.observe(viewLifecycleOwner) {
+            /** Making a request to get forecast for provided location and fetching info from DB */
             viewModel.getFiveDaysForecast(it)
             viewModel.getLocationForecast(it.LocalizedName)
         }
@@ -68,6 +81,7 @@ class WeatherFragment : Fragment() {
             }
         }
 
+        /** Observing errors. */
         viewModel.status.observe(viewLifecycleOwner) {
             when (it.case) {
                 "SUCCESS" -> println()
@@ -81,18 +95,27 @@ class WeatherFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        /** Request user's coordinates from network. */
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,60000, 50.0F, locationListener)
     }
     override fun onPause() {
         super.onPause()
+        /** Stopping LocationManager. */
         locationManager.removeUpdates(locationListener)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+    /** Listening for user's coordinates changes. */
     private val locationListener = LocationListener { location ->
         this.location.postValue(location)
 
     }
 
+
+    /** Initializing ViewPager */
     private fun createList(list: List<LocationForecasts>) {
         val viewPager = binding.viewPager
         val adapter = WeatherListAdapter(
@@ -113,24 +136,33 @@ class WeatherFragment : Fragment() {
         adapter.submitList(list)
     }
 
+    /** Navigate to FiveDaysChartFragment */
     private fun toChart(location: String) {
         val action = WeatherFragmentDirections.actionWeatherFragmentToFiveDaysChartFragment(location)
         findNavController().navigate(action)
     }
+
+    /** Navigate to SendScreenFragment */
     private fun toShare(location: String) {
         val action = WeatherFragmentDirections.actionWeatherFragmentToSendScreenFragment(location)
         findNavController().navigate(action)
     }
+
+    /** Navigate to SettingsFragment */
     private fun toSettings() {
         val action = WeatherFragmentDirections.actionWeatherFragmentToSettingsFragment()
         findNavController().navigate(action)
     }
+
+    /** Open AccuWeather website in browser */
     private fun openWebPage(url: String) {
         val webpage: Uri = Uri.parse(url)
         val intent = Intent(Intent.ACTION_VIEW, webpage)
         startActivity(intent)
     }
 
+
+    /** Notify user about occurred error */
     private fun notifyAboutRequestResult(cause: String) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {

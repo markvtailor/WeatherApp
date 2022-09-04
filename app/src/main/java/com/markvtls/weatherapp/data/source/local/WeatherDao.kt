@@ -2,7 +2,9 @@ package com.markvtls.weatherapp.data.source.local
 
 import androidx.room.*
 
-
+/**
+ * DAO for WeatherDatabase.
+ */
 @Dao
 interface WeatherDao {
 

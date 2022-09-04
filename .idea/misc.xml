@@ -6,7 +6,7 @@
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.30158730158730157" />
         <entry key="app/src/main/res/layout/fragment_five_days_chart.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_send_screen.xml" value="0.35" />
+        <entry key="app/src/main/res/layout/fragment_send_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.35" />
         <entry key="app/src/main/res/layout/fragment_weather.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_weather_item.xml" value="0.2556179775280899" />

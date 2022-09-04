@@ -9,7 +9,9 @@ import com.markvtls.weatherapp.data.dto.RealFeelTemperature
 import com.markvtls.weatherapp.data.dto.Sun
 import com.markvtls.weatherapp.data.dto.Temperature
 
-
+/**
+ * Entity for storing ForecastsAPI responses.
+ */
 @Entity(primaryKeys = ["locationNameForecast","date"])
 data class DailyForecast (
 
@@ -25,12 +27,18 @@ data class DailyForecast (
 
         )
 
+/**
+ * Entity for storing LocationsAPI responses.
+ */
 @Entity
 data class Location(
     @PrimaryKey(autoGenerate = false) val locationName: String,
     val locationCode: String
 )
 
+/**
+ * One-to-many relationship between Locations and Forecasts tables.
+ */
 data class LocationForecasts(
     @Embedded val location: Location,
     @Relation(

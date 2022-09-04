@@ -14,10 +14,15 @@ import com.markvtls.weatherapp.utils.*
 import java.time.LocalTime
 import kotlin.math.roundToInt
 
+
+/**
+ * Adapter for WeatherFragment ViewPager.
+ */
 class WeatherListAdapter(private val toSettings: (String) -> Unit,
                          private val toShare: (String) -> Unit,
                          private val openUrl: (String) -> Unit,
                          private val toChart: (String) -> Unit): ListAdapter<LocationForecasts,WeatherListAdapter.WeatherViewHolder>(DiffCallback) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
         return WeatherViewHolder(

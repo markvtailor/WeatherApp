@@ -5,6 +5,9 @@ import com.markvtls.weatherapp.data.source.local.DailyForecast
 import com.markvtls.weatherapp.domain.repositories.WeatherRepository
 import javax.inject.Inject
 
+/**
+ * Use this to insert ForecastsAPI response into WeatherDB.
+ */
 class InsertForecastUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {

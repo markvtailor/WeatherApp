@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+/**
+ * Use this to make a request to AccuWeather ForecastsAPI.
+ */
 class GetFiveDaysForecastUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {

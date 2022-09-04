@@ -17,7 +17,9 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+/**
+ * ViewModel for all forecasts-related fragments.
+ */
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
     getCoordinates: GetCoordinatesUseCase,
@@ -50,7 +52,7 @@ class WeatherViewModel @Inject constructor(
     private val metricSettings = getMetricSettings()
 
 
-
+    /** Saving new coordinates to Weather DataStore. */
     fun saveNewCoordinates(latitude: Double, longitude: Double) {
         viewModelScope.launch(Dispatchers.IO) {
             coordinates.collect { savedCoordinates ->
@@ -63,6 +65,7 @@ class WeatherViewModel @Inject constructor(
 
     }
 
+    /** Get current location from LocationsAPI. */
     fun getCurrentLocation() {
         viewModelScope.launch {
             try {
@@ -83,6 +86,8 @@ class WeatherViewModel @Inject constructor(
         }
 
     }
+
+    /** Get current last saved forecasts for location. */
     fun getForecastForLastLocation() {
         viewModelScope.launch {
             try {
@@ -96,6 +101,8 @@ class WeatherViewModel @Inject constructor(
         }
 
     }
+
+    /** Get forecasts for provided location */
     fun getLocationForecast(location: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getForecastsForLocation(location).collect {
@@ -104,6 +111,8 @@ class WeatherViewModel @Inject constructor(
         }
 
     }
+
+    /** Get forecasts from ForecastsAPI. */
     fun getFiveDaysForecast(location: LocationResponse) {
         viewModelScope.launch(Dispatchers.IO) {
             metricSettings.collect { metricSettings ->
@@ -123,6 +132,7 @@ class WeatherViewModel @Inject constructor(
 
         }
 
+    /** Confirm notification success. */
     fun notificationCheck() {
         _status.postValue(ExceptionCases.SUCCESS)
     }

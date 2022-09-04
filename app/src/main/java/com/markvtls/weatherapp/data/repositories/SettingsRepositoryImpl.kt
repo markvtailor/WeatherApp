@@ -4,7 +4,11 @@ import com.markvtls.weatherapp.data.source.local.SettingsStore
 import com.markvtls.weatherapp.domain.repositories.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-
+/**
+ *
+ *
+ * Implementation of SettingsRepository.
+ */
 class SettingsRepositoryImpl @Inject constructor(
     private val settings: SettingsStore
 ) : SettingsRepository {

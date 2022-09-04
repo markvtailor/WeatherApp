@@ -6,13 +6,15 @@ import com.markvtls.weatherapp.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+/** Convert date to the day of the week */
 fun String.getDayOfWeek(): String {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.getDefault())
     val formattedDate = dateFormatter.parse(this)
     val formatter = SimpleDateFormat("EEEE", Locale.getDefault())
     return formatter.format(formattedDate).translateDayOfWeek().replaceFirstChar { it.uppercase() }
 }
+
+/** Convert full day of week to short */
 fun String.getShortDayOfWeek(): String {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.getDefault())
     val formattedDate = dateFormatter.parse(this)
@@ -28,6 +30,8 @@ fun String.getShortDayOfWeek(): String {
         else -> "?"
     }
 }
+
+/** Extract time from date */
 fun String.getTime(): String {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
     val formattedDate = dateFormatter.parse(this)
@@ -36,6 +40,7 @@ fun String.getTime(): String {
 
 }
 
+/** Extract hour from time */
 fun String.getHourFromTime(): Float {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
     val formattedDate = dateFormatter.parse(this)
@@ -44,30 +49,37 @@ fun String.getHourFromTime(): Float {
     return "${formattedTime[0]}${formattedTime[1]}".toFloat()
 }
 
+/** Formatting date */
 fun String.formatDate(): String {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
     val formattedDate = dateFormatter.parse(this)
     val formatter = SimpleDateFormat("dd.MM", Locale.getDefault())
     return formatter.format(formattedDate)
 }
+
+/** Is there any precipitation? */
 fun Boolean.yesOrNo(): String {
     return if (this) {
         "Есть"
     } else "Нет"
 }
 
-
+/** Checking value for sun observer */
 fun Float.checkHourValue(minValue: Float): Float {
     return if (this < minValue) 0.0F else this
  }
 
+/** Choosing between Caelcius and Fahrenheit */
 fun String.chooseDegreesUnit(): String {
     return if (this == "F") "\u2109" else "\u2103"
 }
 
+/** Translate speed units from english to <ru> */
 fun String.translateSpeedUnit(): String {
     return if (this == "mi/h") "миль/ч" else "км/ч"
 }
+
+/** Translate day of the wekk from english to <ru> */
 fun String.translateDayOfWeek(): String {
     return when(this) {
         "Monday" -> "Понедельник"
@@ -80,6 +92,8 @@ fun String.translateDayOfWeek(): String {
         else -> this
     }
 }
+
+/** Choose an image for WeatherIcon ImageView */
 fun Int.chooseIcon(): Int {
     return when(this) {
         1 -> R.drawable.weather_1

@@ -19,28 +19,45 @@ private val LOCATION = stringPreferencesKey("last_location")
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = DEFAULT
 )
-
+/**
+ * Data Store for storing the last location and LocationManager's results.
+ */
 class DataStore(@ApplicationContext context: Context) {
 
+
+
     private val dataStore = context.dataStore
+
+    /**
+     * Weather Data Store method for saving latitude.
+     */
     suspend fun saveLatitudeToDataStore(latitude: Double) {
         dataStore.edit { preferences ->
                 preferences[LATITUDE] = latitude
         }
     }
 
+    /**
+     * Weather Data Store method for saving longitude.
+     */
     suspend fun saveLongitudeToDataStore(longitude: Double) {
         dataStore.edit { preferences ->
             preferences[LONGITUDE] = longitude
         }
     }
 
+    /**
+     * Weather Data Store method for saving last location.
+     */
     suspend fun saveLastLocation(location: String) {
         dataStore.edit { preferences ->
             preferences[LOCATION] = location
         }
     }
 
+    /**
+     * Use this flow to access Weather DataStore' latitude.
+     */
     val latitudeFlow: Flow<Double> = dataStore.data
         .catch {
             if (it is IOException) {
@@ -54,7 +71,9 @@ class DataStore(@ApplicationContext context: Context) {
             preferences[LATITUDE] ?: 50.0
         }
 
-
+    /**
+     * Use this flow to access Weather DataStore' longitude.
+     */
     val longitudeFlow: Flow<Double> = dataStore.data
         .catch {
             if (it is IOException) {
@@ -68,6 +87,9 @@ class DataStore(@ApplicationContext context: Context) {
             preferences[LONGITUDE] ?: 50.0
         }
 
+    /**
+     * Use this flow to access Weather DataStore' last location.
+     */
     val lastLocationFlow: Flow<String> = dataStore.data
         .catch {
             if (it is IOException) {

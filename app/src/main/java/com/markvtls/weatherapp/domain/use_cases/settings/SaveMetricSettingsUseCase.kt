@@ -3,6 +3,9 @@ package com.markvtls.weatherapp.domain.use_cases.settings
 import com.markvtls.weatherapp.domain.repositories.SettingsRepository
 import javax.inject.Inject
 
+/**
+ * Use this to save chosen metric settings.
+ */
 class SaveMetricSettingsUseCase @Inject constructor(
     private val repository: SettingsRepository
 ) {

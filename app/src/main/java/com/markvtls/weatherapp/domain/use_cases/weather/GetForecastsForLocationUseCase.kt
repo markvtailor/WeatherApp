@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+/**
+ * Use this to get forecasts for location from DB.
+ */
 class GetForecastsForLocationUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {

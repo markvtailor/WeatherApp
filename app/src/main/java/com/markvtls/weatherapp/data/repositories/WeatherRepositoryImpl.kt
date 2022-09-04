@@ -9,6 +9,12 @@ import com.markvtls.weatherapp.domain.repositories.WeatherRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+/**
+ *
+ *
+ * Implementation of WeatherRepository.
+ */
+
 class WeatherRepositoryImpl @Inject constructor(
     private val defaults: DataStore,
     private val accuWeatherApi: AccuWeatherApiService,

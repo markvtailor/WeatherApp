@@ -5,6 +5,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+/**
+ * Use this to get the last saved location.
+ */
 class GetLastLocationUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {

@@ -1,7 +1,11 @@
 package com.markvtls.weatherapp.data.dto
 
 import androidx.room.Embedded
-
+/**
+ *
+ *
+ * This class represents response from AccuWeather ForecastsAPI.
+ */
 data class FiveDayForecastResponse (val Headline: Headline, val DailyForecasts: List<DailyForecasts>)
 
 

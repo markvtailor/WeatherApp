@@ -13,7 +13,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
+/** This activity holds all the fragments */
 class MainActivity : AppCompatActivity() {
+
+    /** Navigation component controller */
     private lateinit var navController: NavController
 
 
@@ -29,11 +32,13 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
+    /** Checking permissions */
     private fun permissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(applicationContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
+
+    /** Requesting permissions */
     private fun requestPermissions(requestCode: Int) {
 
             if (requestCode == REQUEST_CODE) {
@@ -47,6 +52,8 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    /** Required permissions */
     companion object {
         private const val REQUEST_CODE = 10
         private val REQUIRED_PERMISSIONS = mutableListOf(

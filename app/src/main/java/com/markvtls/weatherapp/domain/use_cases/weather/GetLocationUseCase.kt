@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+/**
+ * Use this to make a request to AccuWeather LocationsAPI.
+ */
 class GetLocationUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {

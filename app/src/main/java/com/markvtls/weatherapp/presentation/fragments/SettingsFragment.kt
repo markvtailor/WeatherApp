@@ -16,6 +16,9 @@ import com.markvtls.weatherapp.databinding.FragmentSettingsBinding
 import com.markvtls.weatherapp.presentation.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This fragment is used to changing app settings.
+ */
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
@@ -26,6 +29,8 @@ class SettingsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /** Overriding back button effects. */
         requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigate(R.id.action_global_weatherFragment)
@@ -45,6 +50,8 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        /** Creating and inflating spinner for metric settings */
         val metricChoices = binding.metricChoices
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -63,6 +70,7 @@ class SettingsFragment : Fragment() {
         }
         metricChoices.onItemSelectedListener = metricSettingsListener
 
+        /** Navigate to WeatherFragment */
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_global_weatherFragment)
         }
@@ -73,6 +81,8 @@ class SettingsFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
+    /** Metric settings selection listener */
     private val metricSettingsListener = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
             val item = parent.getItemAtPosition(position)

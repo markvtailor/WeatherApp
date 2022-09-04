@@ -18,19 +18,26 @@ private val METRIC = stringPreferencesKey("metric_settings")
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = SETTINGS
 )
+
+/**
+ * Data Store for storing app settings.
+ */
 class SettingsStore(@ApplicationContext context: Context) {
 
     private val dataStore = context.dataStore
+
+    /**
+     * Settings Data Store method for saving metric system.
+     */
     suspend fun saveMetricSettingsToDataStore(metric: String) {
         dataStore.edit { preferences ->
             preferences[METRIC] = metric
         }
     }
 
-
-
-
-
+    /**
+     * Use this flow to access Settings DataStore' metric settings.
+     */
     val metricFlow: Flow<String> = dataStore.data
         .catch {
             if (it is IOException) {

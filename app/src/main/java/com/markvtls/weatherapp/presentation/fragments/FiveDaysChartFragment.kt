@@ -27,6 +27,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalTime
 import kotlin.math.roundToInt
 
+/**
+ * This fragment is used to show Temperature chart.
+ */
 @AndroidEntryPoint
 class FiveDaysChartFragment : Fragment() {
     private var _binding: FragmentFiveDaysChartBinding? = null
@@ -37,6 +40,7 @@ class FiveDaysChartFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /** Overriding back button effects. */
         requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigate(R.id.action_global_weatherFragment)
@@ -113,6 +117,8 @@ class FiveDaysChartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        /** Navigate to WeatherFragment */
         binding.backButton.setOnClickListener {
             findNavController().navigate(R.id.action_global_weatherFragment)
         }
@@ -126,6 +132,8 @@ class FiveDaysChartFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
+    /** Draw Temperature chart */
     private fun drawChart(forecastsList: List<DailyForecast>) {
 
 

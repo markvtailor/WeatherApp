@@ -17,7 +17,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
+/**
+ * Hilt module for providing local data dependencies.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {

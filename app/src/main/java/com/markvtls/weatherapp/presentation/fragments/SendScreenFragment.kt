@@ -29,6 +29,9 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.roundToInt
 
+/**
+ * This fragment is used to sending forecasts to another apps.
+ */
 @AndroidEntryPoint
 class SendScreenFragment : Fragment() {
 
@@ -40,6 +43,8 @@ class SendScreenFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /** Overriding back button effects. */
         requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 findNavController().navigate(R.id.action_global_weatherFragment)
@@ -96,6 +101,8 @@ class SendScreenFragment : Fragment() {
                 sendButton.setOnClickListener {
                     shareImage(takeScreenshot(shareScreen))
                 }
+
+                /** Navigate to WeatherFragment */
                 cancelButton.setOnClickListener {
                     findNavController().navigate(R.id.action_global_weatherFragment)
                 }
@@ -104,11 +111,14 @@ class SendScreenFragment : Fragment() {
     }
 
 
+
+    /** Getting current date. */
     private fun getCurrentDate(): String {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         return LocalDate.now().format(formatter)
     }
 
+    /** Creating an image from provided view. */
     private fun takeScreenshot(v: View): Uri {
         val screenshot = Bitmap.createBitmap(v.width,v.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(screenshot)
@@ -134,6 +144,7 @@ class SendScreenFragment : Fragment() {
         return FileProvider.getUriForFile(requireContext(),"com.markvtls.weatherapp",outputFile)
 }
 
+    /** Sending created image by chosen messenger */
     private fun shareImage(imageUri: Uri) {
         val shareIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
